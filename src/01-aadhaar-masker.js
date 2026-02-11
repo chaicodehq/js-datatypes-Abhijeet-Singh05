@@ -29,4 +29,11 @@
  */
 export function maskAadhaar(aadhaarNumber) {
   // Your code here
+  if(typeof(aadhaarNumber) !== "string" || aadhaarNumber.length !== 12 || !/^\d+$/.test(aadhaarNumber)){
+    return "INVALID";
+  }
+  else{
+    let str = "XXXX-".repeat(2).concat(aadhaarNumber.slice(8))
+    return str;
+  }
 }
