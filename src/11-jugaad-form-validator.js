@@ -63,4 +63,61 @@
  */
 export function validateForm(formData) {
   // Your code here
+  if(formData === null || Array.isArray(formData) || typeof(formData) !== "object"){
+    return null;
+  }
+  else{
+
+    let errors = {};
+
+    let name = (typeof(formData.name.trim()) === "string" &&
+     (formData.name.trim().length >=2 && formData.name.trim().length <=50))
+    
+    let nameError = (name)?false:"Name must be 2-50 characters" ;
+
+    let email = ((formData.email.split("@").length === 2) && (formData.email.split("@")[1].includes("."))) ;
+    let emailError = (email)?false:"Invalid email format" ;
+
+    let phone = ((typeof(formData.phone) === "string") && (/^[6-9]\d{9}$/.test(formData.phone))) ;
+    let phoneError = (phone)?false:"Invalid Indian phone number" ;
+
+    let age = (!(Number.isNaN(parseInt(formData.age))) && (Number.isInteger(Number(formData.age))) && ((formData.age >= 16) && (formData.age <= 100)) ) ;
+    let ageError = (age)?false:"Age must be an integer between 16 and 100" ;
+
+    let pincode = ((typeof(formData.pincode) === "string") && (/^[1-9]\d{5}$/).test(formData.pincode)) ;
+    let pinError = (pincode)?false:"Invalid Indian pincode" ;
+
+    let state = ((Boolean(formData.state) !== false) && formData.state?.trim().length !== 0) ;
+    let stateError = (state)?false:"State is required" ;
+
+    
+    let agreeTermsError = (formData.agreeTerms)?false:"Must agree to terms" ; 
+
+    if(nameError){
+      errors["name"] = nameError ;
+    }
+    if(emailError){
+      errors["email"] = emailError ;
+    }
+    if(phoneError) {
+      errors["phone"] = phoneError ;
+    }
+    if(ageError){
+      errors["age"] = ageError ;
+    }
+    if(pinError){
+      errors["pincode"] = pinError ; 
+    }
+    if(stateError){
+      errors["state"] = stateError ;
+    }
+    if(agreeTermsError){
+      errors["agreeTerms"] = agreeTermsError ;
+    }
+    
+
+    let isValid = Object.keys(errors).length === 0 ? true : false ; 
+    return { "isValid": isValid, "errors": errors }
+
+  }
 }
